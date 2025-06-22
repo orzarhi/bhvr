@@ -84,10 +84,13 @@ export function LandingPage() {
           <p className="text-muted text-xl font-bold text-center">
             Yep, all of this is already part of zarhinio. 🚀
           </p>
-          {isMobile ? (
+          {!isMobile ? (
             <video
               src="/checkbox-items.mov"
               muted
+              playsInline
+              loop
+              autoPlay
               className="w-full rounded-4xl shadow-lg object-cover border border-white/10 p-4"
             />
           ) : (
