@@ -1,0 +1,6 @@
+{
+  "siteId": "4c1b412f-37e6-480a-9c2d-a1f0f47e0a92",
+  "domain": "zarhinio",
+  "buildCommand": "bun run build",
+  "buildDir": "dist"
+}

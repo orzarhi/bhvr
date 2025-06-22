@@ -9,8 +9,11 @@ import {
 import { Footer } from '@/components/footer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AVATARS, CARDS } from '@/lib/config';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function LandingPage() {
+  const isMobile = useIsMobile();
+
   return (
     <StarsBackground className="min-h-screen">
       <div className="flex flex-col gap-8 items-center py-12 px-4">
@@ -81,13 +84,22 @@ export function LandingPage() {
           <p className="text-muted text-xl font-bold text-center">
             Yep, all of this is already part of zarhinio. 🚀
           </p>
-          <video
-            src="/checkbox-items.mov"
-            autoPlay
-            loop
-            muted
-            className="w-full rounded-4xl shadow-lg object-cover border border-white/10 p-4"
-          />
+          {isMobile ? (
+            <video
+              src="/checkbox-items.mov"
+              muted
+              className="w-full rounded-4xl shadow-lg object-cover border border-white/10 p-4"
+            />
+          ) : (
+            <video
+              src="/checkbox-items.mov"
+              autoPlay
+              loop
+              playsInline
+              muted
+              className="w-full rounded-4xl shadow-lg object-cover border border-white/10 p-4"
+            />
+          )}
         </div>
         <div className="w-full max-w-2xl mt-16 flex flex-col items-center gap-4">
           <p className="text-white text-xl sm:text-2xl font-medium text-center">
