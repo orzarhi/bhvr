@@ -1,5 +1,10 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Recursive:wght@300..1000&display=swap');
+/* * {
+  border: 1px solid rgba(182, 110, 110, 0.29);
+} */
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,4 +122,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  font-family: 'Recursive', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: 'opsz' 16;
 }

@@ -101,5 +101,3 @@
 - Retention of preferred learning styles
 
 ---
-
-רוצה שאכין לך מזה גם מסמך PDF מעוצב? או אולי wireframe ראשוני לממשק?
