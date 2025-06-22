@@ -1,6 +1,4 @@
-import { Blocks, BringToFront, GitPullRequest } from 'lucide-react';
-
-import { Brain, BookOpenCheck, Bot, User } from 'lucide-react';
+import { BookOpenCheck, Bot, Brain, User } from 'lucide-react';
 
 export const CARDS = [
   {
