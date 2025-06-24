@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { client } from '@/lib/client';
 import { CARDS } from '@/lib/config';
-import type { Stargazer } from '@shared';
+import type { Stargazer } from '../../vendor/shared/types';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
 

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "cd ../server && bun run build && cd ../shared && bun run build && cd ../client && tsc -b && vite build",
+    "copy-deps": "node scripts/copy-dependencies.js",
+    "prebuild": "npm run copy-deps",
+    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

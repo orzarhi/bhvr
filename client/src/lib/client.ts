@@ -1,4 +1,4 @@
-import { hcWithType } from 'server/dist/client';
+import { hcWithType } from '../../vendor/server/client';
 
 export const client = hcWithType(getServerUrl());
 
