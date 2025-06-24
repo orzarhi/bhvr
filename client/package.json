@@ -5,8 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "copy-deps": "node scripts/copy-dependencies.js",
-    "prebuild": "npm run copy-deps",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

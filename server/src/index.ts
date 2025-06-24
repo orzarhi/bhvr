@@ -1,13 +1,15 @@
-import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import type { Stargazer } from '@shared';
+import { Hono } from 'hono';
 import { env } from 'hono/adapter';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
 
 type Environment = {
   GITHUB_TOKEN: string;
 };
 
 export const app = new Hono()
+  .use('*', logger())
   .basePath('/api')
 
   .use(cors())
