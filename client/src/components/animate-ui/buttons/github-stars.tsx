@@ -40,6 +40,7 @@ function formatNumber(num: number, formatted: boolean): FormatNumberResult {
 type GitHubStarsButtonProps = HTMLMotionProps<'a'> & {
   username: string;
   repo: string;
+  starsCount?: number;
   transition?: SpringOptions;
   formatted?: boolean;
   inView?: boolean;
@@ -51,6 +52,7 @@ function GitHubStarsButton({
   ref,
   username,
   repo,
+  starsCount,
   transition = { stiffness: 90, damping: 50 },
   formatted = false,
   inView = false,
@@ -64,28 +66,15 @@ function GitHubStarsButton({
   const motionNumberRef = React.useRef(0);
   const isCompletedRef = React.useRef(false);
   const [, forceRender] = React.useReducer((x) => x + 1, 0);
-  const [stars, setStars] = React.useState(0);
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [displayParticles, setDisplayParticles] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
-
+  
+  const stars = starsCount ?? 0;
 
   const repoUrl = React.useMemo(
     () => `https://github.com/${username}/${repo}`,
-    [username, repo],
+    [username, repo]
   );
-
-  React.useEffect(() => {
-    fetch(`https://api.github.com/repos/${username}/${repo}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && typeof data.stargazers_count === 'number') {
-          setStars(data.stargazers_count);
-        }
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  }, [username, repo]);
 
   const handleDisplayParticles = React.useCallback(() => {
     setDisplayParticles(true);
@@ -125,15 +114,11 @@ function GitHubStarsButton({
   const formattedResult = formatNumber(motionNumberRef.current, formatted);
   const ghostFormattedNumber = formatNumber(stars, formatted);
 
-  const renderNumberSegments = (
-    segments: string[],
-    unit: string,
-    isGhost: boolean,
-  ) => (
+  const renderNumberSegments = (segments: string[], unit: string, isGhost: boolean) => (
     <span
       className={cn(
         'flex items-center gap-px',
-        isGhost ? 'invisible' : 'absolute top-0 left-0',
+        isGhost ? 'invisible' : 'absolute top-0 left-0'
       )}
     >
       {segments.map((segment, index) => (
@@ -154,10 +139,10 @@ function GitHubStarsButton({
       handleDisplayParticles();
       setTimeout(() => window.open(repoUrl, '_blank'), 500);
     },
-    [handleDisplayParticles, repoUrl],
+    [handleDisplayParticles, repoUrl]
   );
 
-  if (isLoading) return null;
+  if (stars === 0) return null;
 
   return (
     <motion.a
@@ -170,7 +155,7 @@ function GitHubStarsButton({
       onClick={handleClick}
       className={cn(
         "flex items-center gap-2 text-sm bg-primary text-primary-foreground rounded-lg px-4 py-2 h-10 has-[>svg]:px-3 cursor-pointer whitespace-nowrap font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-[18px] shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        className,
+        className
       )}
       {...props}
     >
@@ -188,7 +173,9 @@ function GitHubStarsButton({
           className="absolute top-0 left-0 text-yellow-500 fill-yellow-500"
           aria-hidden="true"
           style={{
-            clipPath: `inset(${100 - (isCompleted ? fillPercentage : fillPercentage - 10)}% 0 0 0)`,
+            clipPath: `inset(${
+              100 - (isCompleted ? fillPercentage : fillPercentage - 10)
+            }% 0 0 0)`,
           }}
         />
         <AnimatePresence>
@@ -237,13 +224,9 @@ function GitHubStarsButton({
         {renderNumberSegments(
           ghostFormattedNumber.number,
           ghostFormattedNumber.unit,
-          true,
+          true
         )}
-        {renderNumberSegments(
-          formattedResult.number,
-          formattedResult.unit,
-          false,
-        )}
+        {renderNumberSegments(formattedResult.number, formattedResult.unit, false)}
       </span>
     </motion.a>
   );

@@ -1,6 +1,11 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared": ["../shared/src/index"],
+      "@shared/*": ["../shared/src/*"]
+    },
     // Environment settings
     "lib": ["ESNext"],
     "target": "ESNext",

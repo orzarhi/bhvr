@@ -1,18 +1,29 @@
-import { Link } from 'react-router';
-import { MotionHighlight, StarsBackground } from '@/components/animate-ui';
 import {
-  GitHubStarsButton,
-  LiquidButton,
   AvatarGroup,
   AvatarGroupTooltip,
+  GitHubStarsButton,
+  LiquidButton,
+  MotionHighlight,
+  StarsBackground,
 } from '@/components/animate-ui';
 import { Footer } from '@/components/footer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { AVATARS, CARDS } from '@/lib/config';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { Skeleton } from '@/components/ui/skeleton';
+import { client } from '@/lib/client';
+import { CARDS } from '@/lib/config';
+import type { Stargazer } from '@shared';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router';
 
 export function LandingPage() {
-  const isMobile = useIsMobile();
+  const { data: stargazers } = useQuery<Stargazer[]>({
+    queryKey: ['stargazers'],
+    queryFn: async () => {
+      const res = await client.stargazers.$get();
+      return (await res.json()) as Stargazer[];
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
 
   return (
     <StarsBackground className="min-h-screen">
@@ -51,17 +62,31 @@ export function LandingPage() {
             A real-time feed of the latest supporters - thanks for starring the GitHub
             repo!
           </h2>
-          <AvatarGroup className="h-12 -space-x-3">
-            {AVATARS.map((avatar, index) => (
-              <Avatar key={index} className="size-12 border-3 border-background">
-                <AvatarImage src={avatar.src} />
-                <AvatarFallback>{avatar.fallback}</AvatarFallback>
-                <AvatarGroupTooltip>
-                  <p>{avatar.tooltip}</p>
-                </AvatarGroupTooltip>
-              </Avatar>
-            ))}
-          </AvatarGroup>
+          {stargazers?.length ? (
+            <AvatarGroup className="h-12 -space-x-3">
+              {stargazers.map((stargazer) => (
+                <Avatar
+                  key={stargazer.login}
+                  className="size-12 border-3 border-black/90 hover:border-black/20 transition-all duration-300"
+                >
+                  <Link to={stargazer.html_url} target="_blank">
+                    <AvatarImage src={stargazer.avatar_url} />
+                  </Link>
+                  <AvatarFallback>{stargazer.login}</AvatarFallback>
+                  <AvatarGroupTooltip>
+                    <p>{stargazer.login}</p>
+                  </AvatarGroupTooltip>
+                </Avatar>
+              ))}
+            </AvatarGroup>
+          ) : (
+            <div className="flex -space-x-3">
+              <Skeleton className="size-12 rounded-full" />
+              <Skeleton className="size-12 rounded-full" />
+              <Skeleton className="size-12 rounded-full" />
+              <Skeleton className="size-12 rounded-full" />
+            </div>
+          )}
 
           <div className="flex flex-col items-center group">
             <img
@@ -75,7 +100,7 @@ export function LandingPage() {
             <GitHubStarsButton
               username="orzarhi"
               repo="zarhinio"
-              className=""
+              starsCount={stargazers?.length ?? 0}
               formatted
             />
           </div>
@@ -84,25 +109,14 @@ export function LandingPage() {
           <p className="text-muted text-xl font-bold text-center">
             Yep, all of this is already part of zarhinio. 🚀
           </p>
-          {!isMobile ? (
-            <video
-              src="/checkbox-items.mov"
-              muted
-              playsInline
-              loop
-              autoPlay
-              className="w-full rounded-4xl shadow-lg object-cover border border-white/10 p-4"
-            />
-          ) : (
-            <video
-              src="/checkbox-items.mov"
-              autoPlay
-              loop
-              playsInline
-              muted
-              className="w-full rounded-4xl shadow-lg object-cover border border-white/10 p-4"
-            />
-          )}
+          <video
+            src="/checkbox-items.mov"
+            autoPlay
+            loop
+            playsInline
+            muted
+            className="w-full rounded-4xl shadow-lg object-cover border border-white/10 p-4"
+          />
         </div>
         <div className="w-full max-w-2xl mt-16 flex flex-col items-center gap-4">
           <p className="text-white text-xl sm:text-2xl font-medium text-center">
