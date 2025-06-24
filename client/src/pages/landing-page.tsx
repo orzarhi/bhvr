@@ -13,13 +13,14 @@ import { client } from '@/lib/client';
 import { CARDS } from '@/lib/config';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
+import type { Stargazer } from 'shared';
 
 export function LandingPage() {
-  const { data: stargazers } = useQuery({
+  const { data: stargazers } = useQuery<Stargazer[]>({
     queryKey: ['stargazers'],
     queryFn: async () => {
       const res = await client.stargazers.$get();
-      return await res.json();
+      return (await res.json()) as Stargazer[];
     },
     staleTime: 1000 * 60 * 1, // 1 minute
   });
