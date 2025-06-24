@@ -94,15 +94,20 @@ export function LandingPage() {
               alt="arrow pointing to the right"
               width={200}
               height={200}
-              className="object-cover p-4 ml-18 -mt-10 group-hover:rotate-3 transition-all duration-300"
+              className="object-cover p-4 ml-18 -mt-10 group-hover:rotate-3 transition-all duration-300 hover:rotate-0"
             />
 
-            <GitHubStarsButton
-              username="orzarhi"
-              repo="zarhinio"
-              starsCount={stargazers?.length ?? 0}
-              formatted
-            />
+            {stargazers?.length ? (
+              <GitHubStarsButton
+                username="orzarhi"
+                repo="zarhinio"
+                starsCount={stargazers?.length ?? 0}
+                formatted
+                className="hover:border hover:border-white/50"
+              />
+            ) : (
+              <Skeleton className="size-12 w-48 h-12" />
+            )}
           </div>
         </div>
         <div className="w-full max-w-2xl mt-12 flex flex-col items-center">
