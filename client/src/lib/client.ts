@@ -1,5 +1,10 @@
 import { hcWithType } from 'server/dist/client';
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000/api';
+export const client = hcWithType(getServerUrl());
 
-export const client = hcWithType(SERVER_URL);
+function getServerUrl() {
+  if (import.meta.env.NODE_ENV === 'production') {
+    return import.meta.env.VITE_SERVER_URL_PROD;
+  }
+  return import.meta.env.VITE_SERVER_URL_DEV || 'http://localhost:3000/api';
+}
