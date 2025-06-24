@@ -1,4 +1,7 @@
 # deps
 node_modules/
-wrangler.jsonc
+wrangler.toml
 dist/
+.env
+.wrangler
+wrangler.jsonc
