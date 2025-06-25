@@ -13,7 +13,7 @@ import { client } from '@/lib/client';
 import { CARDS } from '@/lib/config';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
-import type { Stargazer } from 'shared';
+import type { Stargazer } from '@zarhinio/shared';
 
 export function LandingPage() {
   const { data: stargazers } = useQuery<Stargazer[]>({

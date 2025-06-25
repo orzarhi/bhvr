@@ -1,4 +1,4 @@
-import { hcWithType } from 'server/dist/client';
+import { hcWithType } from '@zarhinio/server-sdk';
 
 export const client = hcWithType(getServerUrl());
 
